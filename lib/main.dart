@@ -43,58 +43,62 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      //   title: Text(widget.title),
-      // ),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
 
-      body: SafeArea(
+      
+      body: SingleChildScrollView(
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          color: Colors.white,
-          child: const CustomPaint(
-            size: Size(200, 200), // 위젯의 크기를 정함.
-            painter: MyPainter(eyeColor: Colors.red), // painter에 그리기를 담당할 클래스를 넣음.
-          ),
+          color: Colors.blue,
+          child: GridView.builder(
+            itemCount: 10,   //item 개수
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,   //1 개의 행에 보여줄 item 개수
+              childAspectRatio: 1 / 1,   //item 의 가로 1, 세로 2 의 비율
+            ),
+            itemBuilder: (BuildContext context, int index) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                    onPressed: (){
+                      print('hihihi ${index + 1}');
+                    },
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.purple,
+                        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        textStyle: const TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold)),
+                    child: Text('${index + 1}')
+
+                ),
+              );
+              // return Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: InkWell(
+              //     onTap: (){
+              //       print('hihihi ${index + 1}');
+              //     },
+              //     child: Container(
+              //                   color: Colors.green,
+              //       child: Center(child: Text('${index + 1}')),
+              //                 ),
+              //   ),
+              // );
+            },   //item 의 반목문 항목 형성
+          )
+
         ),
       ),
+
     );
   }
 }
 
-class MyPainter extends CustomPainter  {
-  final Color _eyeColor;
-
-  const MyPainter({Color? eyeColor}): _eyeColor = eyeColor ?? Colors.red;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint() // Paint 클래스는 어떤 식으로 화면을 그릴지 정할 때 쓰임.
-      ..color = Colors.deepPurpleAccent // 색은 보라색
-      ..strokeCap = StrokeCap.round // 선의 끝은 둥글게 함.
-      ..strokeWidth = 4.0; // 선의 굵기는 4.0
-
-    Offset p1 = Offset(size.width * 0.5, 0.0); // 선을 그리기 위한 좌표값을 만듬.
-    Offset p2 = Offset(size.width, size.height * 0.5);
-    Offset p3 = Offset(size.width * 0.5, size.height);
-
-    Offset p4 = Offset(0, size.height * 0.5);
-    // Offset p5 = Offset(size.width * 0.5, 0.0);
-
-    canvas.drawLine(p1, p2, paint); // 선을 그림.
-    canvas.drawLine(p2, p3, paint); // 선을 그림.
-    canvas.drawLine(p3, p4, paint); // 선을 그림.
-    canvas.drawLine(p4, p1, paint); // 선을 그림.
-
-    Path path = Path();
-
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
-    // return _eyeColor != oldDelegate._eyeColor;
-  }
-
-}
