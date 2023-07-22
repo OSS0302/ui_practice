@@ -70,23 +70,25 @@ class MyPainter extends CustomPainter  {
 
   @override
   void paint(Canvas canvas, Size size) {
+    Paint paint = Paint() // Paint 클래스는 어떤 식으로 화면을 그릴지 정할 때 쓰임.
+      ..color = Colors.deepPurpleAccent // 색은 보라색
+      ..strokeCap = StrokeCap.round // 선의 끝은 둥글게 함.
+      ..strokeWidth = 4.0; // 선의 굵기는 4.0
 
+    Offset p1 = Offset(size.width * 0.5, 0.0); // 선을 그리기 위한 좌표값을 만듬.
+    Offset p2 = Offset(size.width, size.height * 0.5);
+    Offset p3 = Offset(size.width * 0.5, size.height);
+
+    Offset p4 = Offset(0, size.height * 0.5);
+    // Offset p5 = Offset(size.width * 0.5, 0.0);
+
+    canvas.drawLine(p1, p2, paint); // 선을 그림.
+    canvas.drawLine(p2, p3, paint); // 선을 그림.
+    canvas.drawLine(p3, p4, paint); // 선을 그림.
+    canvas.drawLine(p4, p1, paint); // 선을 그림.
 
     Path path = Path();
-    Paint paint = Paint();
 
-    path.moveTo(size.width*0.5, 0);
-
-    path.lineTo(size.width, size.height * 0.5);
-
-    path.lineTo(size.width * 0.5, size.height);
-
-    path.lineTo(0, size.height * 0.5);
-
-    path.lineTo(size.width*0.5, 0);
-    paint.color = _eyeColor;
-    // paint.color = Colors.black87;
-    canvas.drawPath(path, paint);
   }
 
   @override
